@@ -21,4 +21,4 @@ def hello_world():
         data = response['data']
 
         return json.dumps(BaseRes(data['forecast']), default=lambda obj: obj.__dict__)
-    return '无该城市数据，请检查参数是否正确！'
+    return json.dumps(BaseRes(status=404, message='无该城市数据，请检查参数是否正确！'), default=lambda obj: obj.__dict__)
