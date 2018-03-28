@@ -4,6 +4,8 @@ PROJECT_PATH=/home/ubuntu/web_service/projcect-web
 
 cd $PROJECT_PATH
 
+pyenv activate project
+
 ps -ef |grep 'python application.py' |awk '{print $2}'|xargs kill -9
 
 git pull --rebase
