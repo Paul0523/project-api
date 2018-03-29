@@ -3,6 +3,8 @@ from flask import request
 import requests
 import json
 from common import BaseRes
+from weather.dao import sqlengin
+from weather.dao import models
 
 weather = Blueprint('weather', __name__, url_prefix='/weather')
 
@@ -22,3 +24,13 @@ def hello_world():
 
         return json.dumps(BaseRes(data['forecast']), default=lambda obj: obj.__dict__)
     return json.dumps(BaseRes(status=404, message='无该城市数据，请检查参数是否正确！'), default=lambda obj: obj.__dict__)
+
+@weather.route('/insert_user_info')
+def insert_user_info():
+    nickname = request.args.get('nickname')
+    session = sqlengin.getSession()
+    for i in range(0, 10000):
+        session.add(models.UserInfo(nickname=nickname))
+    session.commit()
+    session.close()
+    return '操作成功！'
