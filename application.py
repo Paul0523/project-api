@@ -1,6 +1,6 @@
 from flask import Flask
 from weather.service import weather
-import socket
+from config import config
 
 app = Flask(__name__)
 
@@ -25,8 +25,7 @@ app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
 app.register_blueprint(weather)
 
 if __name__ == '__main__':
-    hostname = socket.gethostname()
-    if (hostname == 'VM-151-99-ubuntu'):
+    if (not config.isDebug):
         app.run(port=9999)
     else:
         app.run(debug=True)
