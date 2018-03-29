@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint
 from flask import request
 import requests
 import json
 from common import BaseRes
-from weather.dao import sqlengin
-from weather.dao import models
+from daylife.dao import sqlengin, models
 
 weather = Blueprint('weather', __name__, url_prefix='/weather')
 
@@ -15,7 +14,7 @@ weather_url = 'https://www.sojson.com/open/api/weather/json.shtml?city='
 def hello_world():
     city = request.args.get('city')
     if (city == ''):
-        return json.dumps(BaseRes(status=404, message='城市不能为空！'), default=lambda obj: obj.__dict__)
+        return BaseRes(status=404, message='城市不能为空！').to_json();
     response = requests.get(weather_url + city)
     response = json.loads(response.text)
     if ('status' in response and response['status']== 200):
@@ -23,7 +22,7 @@ def hello_world():
         data = response['data']
 
         return json.dumps(BaseRes(data['forecast']), default=lambda obj: obj.__dict__)
-    return json.dumps(BaseRes(status=404, message='无该城市数据，请检查参数是否正确！'), default=lambda obj: obj.__dict__)
+    return BaseRes(status=404, message='无该城市数据，请检查参数是否正确！').to_json()
 
 @weather.route('/insert_user_info')
 def insert_user_info():

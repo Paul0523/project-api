@@ -1,5 +1,7 @@
 from flask import Flask
-from weather.service import weather
+
+from daylife.record_service import record
+from weather.weather_service import weather
 from config import config
 
 app = Flask(__name__)
@@ -23,6 +25,7 @@ class PrefixMiddleware(object):
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
 
 app.register_blueprint(weather)
+app.register_blueprint(record)
 
 if __name__ == '__main__':
     if (not config.isDebug):
