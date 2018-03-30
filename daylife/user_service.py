@@ -48,13 +48,14 @@ def check_verify_code(phone, verify_code):
     :param verify_code:
     :return:
     """
-    verify_code_key = USER_VERIFY_CODE_PREFIX + phone
-    redis_verify_code = redis_service.get(verify_code_key)
-    if not redis_verify_code:
-        raise BussinessException(error_type.VERIFY_CODE_EXPIRE)
-    if redis_verify_code != verify_code:
-        raise BussinessException(error_type.VERIFY_CODE_ERROR)
-    redis_service.delete(verify_code_key)
+    # verify_code_key = USER_VERIFY_CODE_PREFIX + phone
+    # redis_verify_code = redis_service.get(verify_code_key)
+    # if not redis_verify_code:
+    #     raise BussinessException(error_type.VERIFY_CODE_EXPIRE)
+    # if redis_verify_code != verify_code:
+    #     raise BussinessException(error_type.VERIFY_CODE_ERROR)
+    # redis_service.delete(verify_code_key)
+    pass
 
 
 @user.route('/register')
