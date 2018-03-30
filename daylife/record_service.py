@@ -23,22 +23,22 @@ def get_my_record():
 
 @record.route('/my_follow')
 @login_require
-def get_my_attention():
+def get_my_follow():
     """
     我的关注人发布的记录
     :return:
     """
     pass
 
-@record.route('/publish')
+@record.route('/publish', methods=['post', 'get'])
 @login_require
 def publish_record():
     """
     发布关注信息
     :return:
     """
-    user_id = request.values.get('user_id')
-    content = request.args.get('content')
+    user_id = request.headers.get('user_id')
+    content = request.values.get('content')
     user_record = UserRecord(user_id=user_id, content=content)
     record_dao.add_record(user_record)
     return http.BaseRes(message='发布成功！').to_json()
