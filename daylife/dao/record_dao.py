@@ -18,6 +18,6 @@ def add_record(user_record):
 
 def select_by_user_id(user_id):
     session = sqlengin.getSession()
-    items = session.query(UserRecord).filter(UserRecord.user_id==user_id).order_by(UserRecord.craete_at.desc()).all()
+    items = session.query(UserRecord).filter(UserRecord.user_id==user_id).order_by(UserRecord.id.desc()).all()
     session.close()
     return items
