@@ -1,23 +1,28 @@
 # coding: utf-8
-from flask import Blueprint
+from flask import Blueprint, request
 
-from daylife.dao import sqlengin
+from common.decorator import login_require
+from common.util import http
+from daylife.dao import sqlengin, record_dao
 from daylife.dao.models import UserRecord
 from util import json_util
 
 record = Blueprint('record', __name__, url_prefix='/record')
 
 @record.route('/my')
+@login_require
 def get_my_record():
     """
     获取个人发布信息
     :return:
     """
-    items = sqlengin.getSession().query(UserRecord).all()
-    return json_util.db_to_json(items)
+    user_id = request.args.get('user_id')
+    items = record_dao.select_by_user_id(user_id)
+    return http.BaseRes(data=json_util.convert_db_to_json_obj(items)).to_json()
 
 
 @record.route('/my_follow')
+@login_require
 def get_my_attention():
     """
     我的关注人发布的记录
@@ -26,13 +31,17 @@ def get_my_attention():
     pass
 
 @record.route('/publish')
+@login_require
 def publish_record():
     """
     发布关注信息
     :return:
     """
-    pass
-
+    user_id = request.values.get('user_id')
+    content = request.args.get('content')
+    user_record = UserRecord(user_id=user_id, content=content)
+    record_dao.add_record(user_record)
+    return http.BaseRes(message='发布成功！').to_json()
 
 
 

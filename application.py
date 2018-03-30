@@ -1,31 +1,18 @@
 from flask import Flask
 
-from daylife.record_service import record
-from weather.weather_service import weather
+from common.error import error_handler, BussinessException
+from common.middleware import PrefixMiddleware
 from config import config
+from daylife.record_service import record
+from daylife.user_service import user
+from weather.weather_service import weather
 
 app = Flask(__name__)
-
-
-class PrefixMiddleware(object):
-    def __init__(self, app, prefix=''):
-        self.app = app
-        self.prefix = prefix
-
-    def __call__(self, environ, start_response):
-        print(environ['PATH_INFO'])
-        if environ['PATH_INFO'].startswith(self.prefix):
-            environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
-            environ['SCRIPT_NAME'] = self.prefix
-            return self.app(environ, start_response)
-        else:
-            start_response('404', [('Content-Type', 'text/plain')])
-            return ["This url does not belong to the app.".encode()]
-
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
-
-app.register_blueprint(weather)
+# app.register_blueprint(weather)
 app.register_blueprint(record)
+app.register_blueprint(user)
+app.register_error_handler(BussinessException, error_handler)
 
 if __name__ == '__main__':
     if (not config.isDebug):

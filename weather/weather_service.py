@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import request
 import requests
 import json
-from common import BaseRes
+from common.util.http import BaseRes
 from daylife.dao import sqlengin, models
 
 weather = Blueprint('weather', __name__, url_prefix='/weather')

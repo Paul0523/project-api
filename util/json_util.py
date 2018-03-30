@@ -20,3 +20,13 @@ def db_to_json(obj):
     :return:
     """
     return json.dumps(obj, cls=AlchemyEncoder, ensure_ascii=False)
+
+
+
+def convert_db_to_json_obj(obj):
+    """
+    把db对象转换为可序列化对象
+    :param obj:
+    :return:
+    """
+    return json.loads(db_to_json(obj))
