@@ -7,7 +7,6 @@ from daylife.dao.models import UserInfo, UserToken
 
 """
 session = sqlengin.getSession()
-session.commit()
 session.close()     
 """
 
@@ -38,3 +37,13 @@ def create_token(user_info):
     session.commit()
     session.close()
     return token
+
+def select_user_token_info(token):
+    session = sqlengin.getSession()
+    item = session.query(UserToken).filter(UserToken.token == token).filter(UserToken.device_type == 0).first()
+    session.close()
+    return item
+
+
+if __name__ == '__main__':
+    print(select_user_token_info('89bb221c349511e89cecb8e85634f0ac'))
