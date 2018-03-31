@@ -1,7 +1,7 @@
 import socket
 hostname = socket.gethostname()
 isDebug = False
-if (hostname == 'VM-151-99-ubuntu'):
+if (hostname == 'VM-39-130-ubuntu'):
     from config.env import production as envconfig
     isDebug = False
 else:
