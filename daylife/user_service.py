@@ -66,7 +66,11 @@ def register():
     phone = request.args.get('phone')
     verify_code = request.args.get('verify_code')
     nickname = request.args.get('nickname')
-    check_verify_code(phone, verify_code)
+    if config.isDebug:
+        if phone[0:4] != verify_code:
+            raise BussinessException(error_type.VERIFY_CODE_ERROR)
+    else:
+        check_verify_code(phone, verify_code)
     try:
         user_dao.insert_user(UserInfo(phone=phone, nickname=nickname))
     except IntegrityError as e:
