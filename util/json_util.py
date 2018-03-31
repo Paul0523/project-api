@@ -9,7 +9,7 @@ from daylife.dao.sqlengin import AlchemyEncoder
 
 class MyJSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if obj.__dict__:
+        if hasattr(obj, '__dict__'):
             return obj.__dict__
         elif isinstance(obj, (datetime.datetime,)):
             return int(time.mktime(obj.timetuple()) * 1000)
