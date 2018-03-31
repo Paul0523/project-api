@@ -18,7 +18,7 @@ def get_my_record():
     """
     user_id = request.headers.get('user_id')
     items = record_dao.select_by_user_id(user_id)
-    return http.BaseRes(data=json_util.convert_db_to_json_obj(items)).to_json()
+    return http.BaseRes(data=items).to_json()
 
 
 @record.route('/my_follow')

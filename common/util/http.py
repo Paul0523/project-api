@@ -13,4 +13,4 @@ class BaseRes:
         返回json串
         :return:
         """
-        return json_util.to_json(self)
+        return json_util.to_json(self.__dict__)
