@@ -8,8 +8,10 @@ from common.middleware import PrefixMiddleware
 from config import config
 from daylife.record_service import record
 from daylife.user_service import user
+import logging
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
+logging.basicConfig(level=logging.DEBUG)
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
 app = Flask(__name__)
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix='/api')
 # app.register_blueprint(weather)

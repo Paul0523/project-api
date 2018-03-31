@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 import uuid
 
 from common.sms import demo_sms_send, sms_mapping
@@ -12,13 +13,12 @@ def send_verify_code(phone, verify_code):
     template_code = getattr(sms_mapping, 'verify_code')['aliyun']['template_code']
     sign_name = getattr(sms_mapping, 'verify_code')['aliyun']['sign_name']
     # {"code": 1234}
-    params = "{\"code\": " + verify_code + "}"
+    params = "{\"code\": \"" + verify_code + "\"}"
     res = demo_sms_send.send_sms(uuid.uuid1(), phone, sign_name, template_code, params)
+    logging.info('发送短信' + str(res))
     if res['Code'] == 'OK':
-        print('发送成功!')
         return 'ok'
     else:
-        print('发送失败')
         return 'fail'
 
 
