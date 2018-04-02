@@ -18,14 +18,14 @@ def login_require(func):
             raise  BussinessException(error_type.NEED_LOGIN)
 
         #正式环境对token进行校验
-        if not config.isDebug:
-            token = request.headers.get('token')
-            if not user_id or not token:
-                raise BussinessException(error_type.NEED_LOGIN)
-            user_token = user_dao.select_user_token_info(token)
-            #token信息不存在或与存在信息不符合需要进行登录
-            if not (user_token and user_token.user_id == int(user_id)):
-                raise BussinessException(error_type.NEED_LOGIN)
+        # if not config.isDebug:
+        token = request.headers.get('token')
+        if not user_id or not token:
+            raise BussinessException(error_type.NEED_LOGIN)
+        user_token = user_dao.select_user_token_info(token)
+        #token信息不存在或与存在信息不符合需要进行登录
+        if not (user_token and user_token.user_id == int(user_id)):
+            raise BussinessException(error_type.NEED_LOGIN)
 
         return func(*args, **kwargs)
     return decorator
