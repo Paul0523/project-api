@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_PATH=/home/ubuntu/web_service/projcect-web
+PROJECT_PATH=~/mircro_service/project-api
 
 cd $PROJECT_PATH
 
