@@ -26,8 +26,6 @@ def login_require(func):
         if not user_id or not token:
             raise BussinessException(error_type.NEED_LOGIN)
         user_token = user_dao.select_user_token_info(token)
-        logging.info('user_id is ' + user_id + ', token is ' + token + ', user_token is '
-                     + user_token)
         #token信息不存在或与存在信息不符合需要进行登录
         if not (user_token and user_token.user_id == int(user_id)):
             raise BussinessException(error_type.NEED_LOGIN)
