@@ -32,6 +32,17 @@ def get_my_follow():
     items = record_dao.select_follow_by_user_id(user_id)
     return http.BaseRes(data=items).to_json()
 
+
+@record.route('/hot_record')
+@login_require
+def get_hot_record():
+    """
+    获取热门记录
+    :return:
+    """
+    items = record_dao.select_hot_record()
+    return http.BaseRes(data=items).to_json()
+
 @record.route('/publish', methods=['post', 'get'])
 @login_require
 def publish_record():
@@ -46,7 +57,15 @@ def publish_record():
     return http.BaseRes(message='发布成功！').to_json()
 
 
-
+@record.route('/record_detail')
+def record_detail():
+    """
+    记录详细信息
+    :return:
+    """
+    record_id = request.values.get('record_id')
+    record = record_dao.select_by_record_id(record_id)
+    return http.BaseRes(data=record).to_json()
 
 if __name__ == '__main__':
     print(get_my_record())

@@ -24,7 +24,7 @@ def to_json(obj):
     :param obj:
     :return:
     """
-    return json.dumps(obj, cls=MyJSONEncoder, ensure_ascii=False)
+    return json.dumps(obj, cls=MyJSONEncoder, ensure_ascii=False) if obj else ''
 
 
 def db_to_json(obj):

@@ -40,5 +40,33 @@ def select_follow_by_user_id(user_id):
     session.close()
     return [dict(x.items()) for x in items]
 
+
+
+
+def select_by_record_id(record_id):
+    """
+    根据记录Id获取记录
+    :param record_id:
+    :return:
+    """
+    session = sqlengin.getSession()
+    session.execute('update user_record t set t.hot=t.hot+1 WHERE t.id=:record_id', {'record_id': record_id})
+    record = session.execute('select t.*, tt.nickname from user_record t, user_info tt WHERE t.user_id=tt.id AND t.id=:record_id', {'record_id': record_id}).first()
+    session.commit()
+    session.close()
+    return dict(record.items()) if record else None
+
+
+def select_hot_record():
+    """
+    获取热门记录
+    :return:
+    """
+    session = sqlengin.getSession()
+    items = session.execute('select t.*, tt.nickname from user_record t, user_info tt WHERE t.user_id=tt.id ORDER BY t.hot DESC').fetchall()
+    session.close()
+    return [dict(x.items()) for x in items]
+
+
 if __name__ == '__main__':
-    print(json_util.to_json(select_follow_by_user_id(2)))
+    print(json_util.to_json(select_by_record_id(2)))
