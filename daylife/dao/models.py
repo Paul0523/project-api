@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, DateTime, Index, Integer, String, Table, text
+from sqlalchemy import Column, DateTime, Index, Integer, String, text
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -7,10 +7,14 @@ Base = declarative_base()
 metadata = Base.metadata
 
 
-t_test = Table(
-    'test', metadata,
-    Column('test', String(2))
-)
+class UserFollow(Base):
+    __tablename__ = 'user_follow'
+
+    id = Column(Integer, primary_key=True)
+    fans_id = Column(Integer, nullable=False)
+    followed_id = Column(Integer, nullable=False)
+    create_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
+    update_at = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
 
 class UserInfo(Base):

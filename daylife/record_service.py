@@ -28,7 +28,9 @@ def get_my_follow():
     我的关注人发布的记录
     :return:
     """
-    pass
+    user_id = request.headers.get('user_id')
+    items = record_dao.select_follow_by_user_id(user_id)
+    return http.BaseRes(data=items).to_json()
 
 @record.route('/publish', methods=['post', 'get'])
 @login_require

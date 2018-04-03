@@ -117,37 +117,49 @@ def follow():
     关注
     :return:
     """
-    return '返回关注列表'
+    user_id = request.headers.get('user_id')
+    items = user_dao.get_follows(user_id)
+    return http.BaseRes(data=items).to_json()
 
 
 @user.route('/fans')
+@login_require
 def fans():
     """
     粉丝
     :return:
     """
-    pass
-
+    user_id = request.headers.get('user_id')
+    items = user_dao.get_fans(user_id)
+    return http.BaseRes(data=items).to_json()
 
 @user.route('/do_follow')
+@login_require
 def do_follow():
     """
     进行关注
     :return:
     """
-    pass
+    user_id = request.headers.get('user_id')
+    followed_id = request.args.get('followed_id')
+    user_dao.add_follow(user_id, followed_id)
+    return http.BaseRes()
 
 
 @user.route('/do_unfollow')
+@login_require
 def do_unfollow():
     """
     取消关注
     :return:
     """
-    pass
-
+    user_id = request.headers.get('user_id')
+    followed_id = request.args.get('followed_id')
+    user_dao.remove_follow(user_id, followed_id)
+    return http.BaseRes()
 
 @user.route('/my_info')
+@login_require
 def my_info():
     """
     我的个人信息
