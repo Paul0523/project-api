@@ -21,6 +21,6 @@ app.register_error_handler(BussinessException, error_handler)
 
 if __name__ == '__main__':
     if (not config.isDebug):
-        app.run(port=9999)
+        app.run(port=9998)
     else:
         app.run(debug=True)
